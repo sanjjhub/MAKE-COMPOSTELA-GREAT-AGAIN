@@ -64,6 +64,42 @@ function About() {
 const EXP_FILTERS = ["TODOS", "DISCOTECA", "PRIVADO", "FESTIVAL", "UNIVERSIDAD", "BEACH"];
 
 function Showreel({ items }) {
+  const stripRef = useRefS(null);
+  const [nav, setNav] = useStateS({ inicio: true, fin: false, avance: 0 });
+
+  /* Estado de la tira: donde estamos y si quedan tarjetas a cada lado. */
+  const medir = () => {
+    const el = stripRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    setNav({
+      inicio: el.scrollLeft <= 2,
+      fin: max <= 2 || el.scrollLeft >= max - 2,
+      avance: max > 0 ? el.scrollLeft / max : 0,
+    });
+  };
+
+  useEffectS(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    medir();
+    el.addEventListener("scroll", medir, { passive: true });
+    window.addEventListener("resize", medir);
+    return () => {
+      el.removeEventListener("scroll", medir);
+      window.removeEventListener("resize", medir);
+    };
+  }, [items]);
+
+  /* Desplaza exactamente una tarjeta, sea cual sea su ancho responsive. */
+  const mover = (dir) => {
+    const el = stripRef.current;
+    if (!el) return;
+    const card = el.querySelector(".reel__card");
+    const paso = card ? card.getBoundingClientRect().width + 16 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * paso, behavior: "smooth" });
+  };
+
   return (
     <section className="section shell" id="showreel">
       <div className="reel__head reveal">
@@ -71,13 +107,34 @@ function Showreel({ items }) {
           <span className="eyebrow">Showreel · Media</span>
           <h2 className="h-section">Sets, edits, momentos.</h2>
         </div>
-        <a href="#" className="btn btn--ghost">Ver canal de YouTube <Arrow/></a>
+        <div className="reel__tools">
+          <button
+            type="button"
+            className="reel__arrow"
+            onClick={() => mover(-1)}
+            disabled={nav.inicio}
+            aria-label="Ver anteriores"
+          >
+            <Arrow size={13}/>
+          </button>
+          <button
+            type="button"
+            className="reel__arrow reel__arrow--next"
+            onClick={() => mover(1)}
+            disabled={nav.fin}
+            aria-label="Ver siguientes"
+          >
+            <Arrow size={13}/>
+          </button>
+          <a href="#" className="btn btn--ghost">Ver canal de YouTube <Arrow/></a>
+        </div>
       </div>
-      <div className="reel__grid reveal-stagger">
+
+      <div className="reel__strip reveal" ref={stripRef}>
         {items.map((it, i) => (
           <a href="#" className="reel__card" key={i}>
             <div className="photo">
-              <img src={it.img} alt={it.title}/>
+              <img src={it.img} alt={it.title} loading="lazy"/>
             </div>
             <div className="reel__duration">{it.duration}</div>
             <div className="reel__play"><IconPlay/></div>
@@ -89,6 +146,10 @@ function Showreel({ items }) {
             </div>
           </a>
         ))}
+      </div>
+
+      <div className="reel__progress" aria-hidden="true">
+        <span style={{ transform: `scaleX(${Math.max(0.08, nav.avance || 0.08)})` }}></span>
       </div>
     </section>
   );

@@ -588,13 +588,53 @@ img { max-width: 100%; display: block; }
 /* ============ Showreel ============ */
 .reel__head {
   display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
-.reel__grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  grid-template-rows: auto auto;
+.reel__tools { display: flex; align-items: center; gap: 10px; }
+.reel__arrow {
+  width: 42px; height: 42px;
+  border-radius: 999px;
+  display: grid; place-items: center;
+  background: transparent;
+  border: 1px solid var(--line-2);
+  color: var(--ink);
+  transition: background .25s var(--ease), border-color .25s var(--ease),
+              color .25s var(--ease), opacity .25s var(--ease);
+}
+.reel__arrow svg { transform: rotate(180deg); }
+.reel__arrow--next svg { transform: none; }
+.reel__arrow:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.reel__arrow:disabled { opacity: 0.28; cursor: default; }
+.reel__strip {
+  display: flex;
   gap: 16px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* la barra nativa estorba: la navegacion son las flechas y el arrastre */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 2px;
+}
+.reel__strip::-webkit-scrollbar { display: none; }
+
+/* Barra de avance: sustituye a los puntos, no ocupa alto y dice cuanto queda */
+.reel__progress {
+  margin-top: 22px;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+.reel__progress span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left center;
+  transition: transform .25s var(--ease);
 }
 .reel__card {
   position: relative;
@@ -602,13 +642,12 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   background: var(--bg-soft);
   border: 1px solid var(--line);
-  aspect-ratio: 16/9;
+  flex: 0 0 clamp(230px, 24vw, 330px);
+  scroll-snap-align: start;
+  aspect-ratio: 4/5;
   cursor: none;
   transition: transform .4s var(--ease);
 }
-.reel__card:nth-child(1) { grid-row: 1 / span 2; aspect-ratio: 4/5; }
-.reel__card:nth-child(2), .reel__card:nth-child(3) { aspect-ratio: 16/9; }
-.reel__card:nth-child(4), .reel__card:nth-child(5) { aspect-ratio: 16/9; }
 .reel__card:hover { transform: translateY(-4px); }
 .reel__card::after {
   content: "";
@@ -667,9 +706,10 @@ img { max-width: 100%; display: block; }
   border-radius: 999px;
   backdrop-filter: blur(8px);
 }
-@media (max-width: 900px) {
-  .reel__grid { grid-template-columns: 1fr 1fr; }
-  .reel__card:nth-child(1) { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 16/9; }
+@media (max-width: 720px) {
+  /* En movil las flechas sobran: se navega arrastrando */
+  .reel__arrow { display: none; }
+  .reel__card { flex-basis: 74vw; }
 }
 
 /* ============ Certificate ============ */
