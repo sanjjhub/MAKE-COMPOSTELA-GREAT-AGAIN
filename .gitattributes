@@ -1,0 +1,9 @@
+# Normaliza saltos de linea: LF dentro del repo, nativos en el disco.
+# Evita diffs enteros que solo cambian CRLF por LF.
+* text=auto
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.zip binary

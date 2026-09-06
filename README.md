@@ -21,7 +21,7 @@ ven al recargar.
 ## Publicar en GitHub Pages
 
 No hace falta compilar nada. En **Settings → Pages** elige la rama y la carpeta
-raíz; `index.html` ya está en el nivel superior.
+raíz (`/`); `index.html` está en el nivel superior del repositorio.
 
 > Ojo: la página compila JSX en el navegador con Babel standalone. Funciona,
 > pero carga ~1,5 MB de JavaScript antes de pintar nada. Para producción de

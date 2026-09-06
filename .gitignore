@@ -1,0 +1,17 @@
+# Estado local del editor de imagenes
+.image-slots.state.json
+
+# Vistas previas temporales de secciones sueltas
+_*.html
+
+# Configuracion local del editor
+.claude/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc
