@@ -2,8 +2,22 @@
 # Evita diffs enteros que solo cambian CRLF por LF.
 * text=auto
 
-*.png binary
-*.jpg binary
+# Declarados explicitamente: con solo `text=auto` git los clasificaba por
+# heuristica y podia acabar convirtiendo saltos de linea dentro de un binario.
+*.png  binary
+*.jpg  binary
 *.jpeg binary
 *.webp binary
-*.zip binary
+*.gif  binary
+*.ico  binary
+*.zip  binary
+*.pdf  binary
+*.mp4  binary
+*.mov  binary
+*.webm binary
+*.mp3  binary
+*.wav  binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
