@@ -384,8 +384,7 @@ function Footer() {
       </div>
       <div className="footer__bottom">
         <span>© 2026 Compostela · All rights reserved</span>
-        <span>Press kit / v1.0</span>
-        <span>Design by COMPOSTELA STUDIO</span>
+        <span>Panamá · Booking 2026</span>
       </div>
     </footer>
   );
