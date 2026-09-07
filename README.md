@@ -5,8 +5,7 @@ urbana latina y electrónica.
 
 ## Ver la página
 
-Necesita servirse por HTTP: los `.jsx` se compilan en el navegador con Babel y
-el protocolo `file://` los bloquea por CORS.
+Necesita servirse por HTTP; con `file://` el navegador bloquea los scripts.
 
 ```bash
 python serve.py
@@ -23,25 +22,44 @@ ven al recargar.
 No hace falta compilar nada. En **Settings → Pages** elige la rama y la carpeta
 raíz (`/`); `index.html` está en el nivel superior del repositorio.
 
-> Ojo: la página compila JSX en el navegador con Babel standalone. Funciona,
-> pero carga ~1,5 MB de JavaScript antes de pintar nada. Para producción de
-> verdad conviene precompilar los `.jsx` y usar las versiones `production` de
-> React.
+**Importante:** si tocas cualquier `.jsx`, hay que recompilar antes de subir,
+o la web publicada seguirá con la versión anterior:
+
+```bash
+python tools/compilar.py
+```
 
 ## Estructura
 
 ```
-index.html         Esqueleto: fuentes, React, Babel y los scripts
-styles.css         Todo el diseño (variables, secciones, animaciones)
-app.jsx            Composición de la página, datos y panel de ajustes
-hero.jsx           Intro de carga, navegación, hero y marquesina
-sections.jsx       Sobre, Showreel, Certificado
-extras.jsx         Servicios, Booking, Testimonios, Redes, Footer
-tweaks-panel.jsx   Panel flotante para ajustar acento y tipografía
-image-slot.js      Componente para reemplazar imágenes desde la propia página
-assets/            Fotos y logos
-serve.py           Servidor de desarrollo
+index.html            Esqueleto: fuentes, React y el bundle compilado
+styles.css            Todo el diseño (variables, secciones, animaciones)
+app.jsx               Composición de la página y datos
+hero.jsx              Intro de carga, navegación, hero y marquesina
+sections.jsx          Sobre, Showreel, Última sesión, Certificado
+extras.jsx            Servicios, Booking, Testimonios, Redes, Footer
+tweaks-panel.jsx      Panel flotante para ajustar acento y tipografía
+image-slot.js         Reemplazo de imágenes desde la propia página
+build/compostela.js   Generado. No editar a mano.
+assets/               Fotos, logos y el vídeo de la sesión
+press/                EPK en PDF y foto pack, para descargar
+tools/                Scripts que generan el bundle, el EPK y el foto pack
+serve.py              Servidor de desarrollo
 ```
+
+## Compilar
+
+Los `.jsx` no se envían al navegador: se compilan aquí una vez.
+
+```bash
+python tools/compilar.py        # -> build/compostela.js
+python tools/generar_epk.py     # -> press/compostela-epk.pdf
+python tools/generar_fotopack.py # -> press/compostela-fotos.zip
+```
+
+Antes, la página mandaba los `.jsx` en crudo y Babel los compilaba en el
+navegador: **4,2 MB de librerías** que cada visitante descargaba para ver
+la primera pantalla. Ahora son unos 200 KB.
 
 ## Diseño
 
@@ -65,13 +83,9 @@ Testimonios → Redes.
 
 ## Pendiente
 
-- Casi todos los enlaces externos son `href="#"`: redes, WhatsApp, YouTube y
-  los botones de cotización. Faltan las URLs reales.
-- Los seis paquetes de Booking muestran `—` en vez de precio.
-- El dato **Idiomas** de la ficha técnica (`sections.jsx`) está sin confirmar.
-- `assets/foto5.jpg` e `assets/image5.jpg` no se usan en ninguna parte.
-- El tema claro deja los logos invisibles: son blancos fijos y el fondo es
-  blanco. O se ajusta o se quita el interruptor.
-- `.section` pisa el `padding` lateral de `.shell` y lo deja en 0, así que los
-  títulos van pegados al borde de la pantalla.
+- Los tres testimonios son de la plantilla original: los nombres no
+  corresponden a clientes reales.
+- El certificado ShowRots está sin verificar y falta la foto del diploma.
+- Los seis paquetes de booking muestran `—` en lugar de precio.
+- Falta el rider técnico; el enlace se retiró del footer hasta tenerlo.
 - Las imágenes no están optimizadas para web (sin WebP ni tamaños múltiples).
