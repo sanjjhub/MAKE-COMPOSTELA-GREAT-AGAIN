@@ -369,9 +369,8 @@ function Footer() {
         <div className="footer__col">
           <h5>Press kit</h5>
           <ul>
-            <li><a href="#">EPK · PDF</a></li>
-            <li><a href="#">Rider técnico</a></li>
-            <li><a href="#">Foto pack hi-res</a></li>
+            <li><a href="press/compostela-epk.pdf" download>EPK · PDF</a></li>
+            <li><a href="press/compostela-fotos.zip" download>Foto pack hi-res</a></li>
           </ul>
         </div>
         <div className="footer__col">
