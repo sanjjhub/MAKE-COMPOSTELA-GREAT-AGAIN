@@ -98,7 +98,7 @@ function Hero() {
 
       <div className="hero__top">
         <div className="hero__loc">
-          <div><strong>BASED IN</strong> · LATAM / GLOBAL</div>
+          <div><strong>BASED IN</strong> · PANAMÁ</div>
           <div style={{ marginTop: 8 }}>AVAILABLE FOR BOOKING · 2026</div>
           <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ width: 6, height: 6, borderRadius: 999, background: "var(--accent)", display: "inline-block", boxShadow: "0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent)" }}></span>
@@ -124,7 +124,7 @@ function Hero() {
       <div className="hero__actions">
         <a href="#pricing" className="btn">Book Now <Arrow/></a>
         <a href="#showreel" className="btn btn--ghost"><IconPlay/> Watch Set</a>
-        <a href="#" className="btn btn--icon" aria-label="Instagram"><IconInstagram/></a>
+        <a href="https://www.instagram.com/compostela.pty/" target="_blank" rel="noopener noreferrer" className="btn btn--icon" aria-label="Instagram"><IconInstagram/></a>
       </div>
     </section>
   );

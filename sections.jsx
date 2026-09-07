@@ -17,7 +17,7 @@ function SectionHead({ eyebrow, title, kicker, right }) {
 function About() {
   /* Ficha técnica: lo que un promotor necesita verificar de un vistazo. */
   const spec = [
-    { k: "Base",            v: "LATAM / Global" },
+    { k: "Base",            v: "Panamá · disponible para viajar" },
     { k: "Géneros",         v: "Reggaeton · Latin urban · House · Tech house · Afro · EDM" },
     { k: "Formatos",        v: "Discoteca · Privado · Boda · Universidad · Beach · Corporate" },
     { k: "Duración de set", v: "Hasta 4h, curado por bloques" },
@@ -126,13 +126,13 @@ function Showreel({ items }) {
           >
             <Arrow size={13}/>
           </button>
-          <a href="#" className="btn btn--ghost">Ver canal de YouTube <Arrow/></a>
+          <a href="https://www.youtube.com/@djcompostela" target="_blank" rel="noopener noreferrer" className="btn btn--ghost">Ver canal de YouTube <Arrow/></a>
         </div>
       </div>
 
       <div className="reel__strip reveal" ref={stripRef}>
         {items.map((it, i) => (
-          <a href="#" className="reel__card" key={i}>
+          <a href={it.url || "https://www.youtube.com/@djcompostela"} target="_blank" rel="noopener noreferrer" className="reel__card" key={i}>
             <div className="photo">
               <img src={it.img} alt={it.title} loading="lazy"/>
             </div>

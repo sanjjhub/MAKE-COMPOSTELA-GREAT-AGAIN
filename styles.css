@@ -15,7 +15,9 @@
   --accent: #ff00ff;                        /* magenta de marca */
   --accent-2: #ff7bff;                      /* magenta claro */
   --accent-glow: color-mix(in srgb, var(--accent) 35%, transparent);
-  --logo: #ffffff;                          /* los logos van SIEMPRE en blanco */
+  /* Sobre fondo claro el logo blanco desaparece; en tema oscuro y sobre los
+     paneles negros se mantiene blanco. */
+  --logo: #000000;
   --panel: #000000;                         /* paneles invertidos: intro y footer */
 
   --font-display: 'Space Grotesk', 'Helvetica Neue', sans-serif;
@@ -31,6 +33,7 @@
 
 [data-theme="dark"] {
   /* Tema principal: blanco sobre negro */
+  --logo: #ffffff;
   --bg: #000000;
   --bg-soft: #0a0a0a;
   --ink: #ffffff;
@@ -183,7 +186,9 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
 }
 .section {
-  padding: var(--section-y) 0;
+  /* Solo el eje vertical: el atajo `padding: Y 0` ponia el lateral a 0 y
+     anulaba el de .shell, dejando los titulos pegados al borde. */
+  padding-block: var(--section-y);
   position: relative;
 }
 .section + .section { border-top: 1px solid var(--line); }
@@ -754,8 +759,6 @@ img { max-width: 100%; display: block; }
   z-index: 1;
   opacity: calc(0.2 + var(--avance) * 0.8);
   transform: translate3d(0, calc((1 - var(--avance)) * 30px), 0);
-  /* .section deja el padding lateral en 0, y aqui la tarjeta lleva borde:
-     pegada al canto se ve como un error. */
   padding: 0 var(--pad-x);
   max-width: 1600px;
   margin: 0 auto;
@@ -1593,7 +1596,7 @@ image-slot {
   width: 100%;
   height: clamp(120px, 22vw, 320px);
   margin: 0 0 48px 0;
-  color: var(--logo);
+  color: #fff;
   background-color: currentColor;
   mask: url('assets/logo-wordmark-tight.png') no-repeat center / contain;
   -webkit-mask: url('assets/logo-wordmark-tight.png') no-repeat center / contain;
@@ -1607,7 +1610,7 @@ image-slot {
   position: absolute;
   inset: auto -10% -40% auto;
   width: 70%; aspect-ratio: 1/1;
-  color: var(--logo);
+  color: #fff;
   opacity: 0.04;
   pointer-events: none;
   animation: logoSpin 120s linear infinite;
@@ -1619,7 +1622,7 @@ image-slot {
 .intro__logo-mark {
   width: clamp(70px, 9vw, 110px);
   height: clamp(70px, 9vw, 110px);
-  color: var(--logo);
+  color: #fff;
   opacity: 0;
   animation: introMarkIn 0.9s var(--ease-out) forwards;
   animation-delay: 0.1s;
@@ -1632,7 +1635,7 @@ image-slot {
 .intro__wordmark {
   width: clamp(280px, 50vw, 600px);
   height: clamp(60px, 10vw, 130px);
-  color: var(--logo);
+  color: #fff;
   background-color: currentColor;
   mask: url('assets/logo-wordmark-tight.png') no-repeat center / contain;
   -webkit-mask: url('assets/logo-wordmark-tight.png') no-repeat center / contain;

@@ -1,4 +1,10 @@
 /* Services / Pricing / Testimonials / Social / Footer */
+
+/* Enlaces reales. Sin cifras de seguidores: un press kit con numeros
+   inflados se desmonta en cuanto el promotor abre el perfil. */
+const WHATSAPP = "https://wa.me/50763887908";
+const EMAIL = "djcompostela@gmail.com";
+
 const { useState: useStateP } = React;
 
 /* ---------- SERVICE ICONS (simple geometric, original) ---------- */
@@ -84,6 +90,7 @@ const SERVICES = [
   { i: <IconCake/>, t: "Cumpleaños", d: "Del coro de feliz cumpleaños al peak hour, sin perder el público." },
   { i: <IconRings/>, t: "Bodas", d: "Cocktail, ceremonia, pista. Sets diseñados por bloques." },
   { i: <IconCap/>, t: "Eventos Universitarios", d: "Fiestas, semanas culturales y lanzamientos juveniles." },
+  { i: <IconCake/>, t: "Quinceaños", d: "Entrada, vals y peak hour. La noche entera por bloques." },
   { i: <IconWave/>, t: "Beach Parties", d: "Sunset hasta after — house, afro y latin urban." },
   { i: <IconCorporate/>, t: "Corporate Events", d: "Sets ambient + dance con curaduría profesional." },
   { i: <IconMix/>, t: "Open Format Sessions", d: "Sets versátiles para públicos diversos." },
@@ -146,19 +153,7 @@ const PRICE_DATA = {
       list: ["Heads móviles + wash + strobe", "Programación DMX por bloques", "Hazer / fog opcional", "Operador lumínico"],
       obs: "Compatible con paquete DJ + Sonido.",
     },
-    {
-      cat: "Big stage", name: "DJ + Pantallas", desc: "Visuales en pantalla LED. Loops, branding del evento y reactivo a audio.",
-      price: "—", currency: "USD / evento", feat: false,
-      list: ["Pantalla LED P3 modular", "Loops curados por Compostela", "Branding del cliente en pantalla", "Operador VJ"],
-      obs: "Tamaño según escenario y línea de visión.",
-    },
-    {
-      cat: "Show 360", name: "Full Production", desc: "DJ + sonido + luces + pantallas + producción técnica completa.",
-      price: "—", currency: "USD / evento", feat: false,
-      list: ["Production manager", "Curaduría visual + sonora", "Rider técnico completo", "Equipo de soporte"],
-      obs: "Para festivales, bodas premium y corporate.",
-    },
-  ],
+          ],
   scale: [
     {
       cat: "Hasta 80 personas", name: "Evento pequeño", desc: "Cumpleaños, reuniones íntimas, recepciones cerradas.",
@@ -265,7 +260,7 @@ function Pricing() {
         </div>
         <div className="book__actions">
           <a href="#contact" className="btn">Solicitar cotización <Arrow/></a>
-          <a href="#" className="btn btn--ghost"><IconWhatsapp/> WhatsApp</a>
+          <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn--ghost"><IconWhatsapp/> WhatsApp</a>
         </div>
       </div>
     </section>
@@ -317,12 +312,11 @@ function Testimonials() {
 
 /* ---------- SOCIAL ---------- */
 const SOCIALS = [
-  { plat: "Instagram", handle: "@compostela.dj", count: "12.4K followers" },
-  { plat: "TikTok", handle: "@compostela", count: "28.7K followers" },
-  { plat: "YouTube", handle: "Compostela Sets", count: "Subscribers" },
-  { plat: "SoundCloud", handle: "/compostela", count: "Live mixes" },
-  { plat: "Spotify", handle: "Compostela Curated", count: "Monthly playlists" },
-  { plat: "WhatsApp", handle: "Booking Direct", count: "Respuesta < 24h" },
+  { plat: "Instagram",  handle: "@compostela.pty",  url: "https://www.instagram.com/compostela.pty/" },
+  { plat: "TikTok",     handle: "@compostela.ptyy", url: "https://www.tiktok.com/@compostela.ptyy" },
+  { plat: "YouTube",    handle: "@djcompostela",    url: "https://www.youtube.com/@djcompostela" },
+  { plat: "SoundCloud", handle: "/compostela",      url: "https://soundcloud.com/compostela-103016286" },
+  { plat: "WhatsApp",   handle: "+507 6388-7908",   url: WHATSAPP },
 ];
 
 function Social() {
@@ -339,7 +333,7 @@ function Social() {
       </div>
       <div className="soc__grid reveal-stagger">
         {SOCIALS.map((s, i) => (
-          <a href="#" className="soc__card" key={i}>
+          <a href={s.url} target="_blank" rel="noopener noreferrer" className="soc__card" key={i}>
             <div className="soc__plat">{s.plat}</div>
             <div className="soc__arr"><Arrow size={12}/></div>
             <div>
@@ -367,9 +361,9 @@ function Footer() {
         <div className="footer__col">
           <h5>Contacto</h5>
           <ul>
-            <li><a href="mailto:booking@compostela.dj">booking@compostela.dj</a></li>
-            <li><a href="#">+00 000 000 0000</a></li>
-            <li><a href="#">WhatsApp directo</a></li>
+            <li><a href={"mailto:" + EMAIL}>{EMAIL}</a></li>
+            <li><a href="tel:+50763887908">+507 6388-7908</a></li>
+            <li><a href={WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp directo</a></li>
           </ul>
         </div>
         <div className="footer__col">
@@ -383,10 +377,9 @@ function Footer() {
         <div className="footer__col">
           <h5>Sígueme</h5>
           <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">TikTok</a></li>
-            <li><a href="#">YouTube</a></li>
-            <li><a href="#">SoundCloud</a></li>
+            {SOCIALS.filter(x => x.plat !== "WhatsApp").map((x, i) => (
+              <li key={i}><a href={x.url} target="_blank" rel="noopener noreferrer">{x.plat}</a></li>
+            ))}
           </ul>
         </div>
       </div>
