@@ -16,7 +16,9 @@ import os
 import re
 import socketserver
 
-PORT = 4173
+# El puerto puede venir del entorno: asi el arrancador puede asignar otro
+# libre si el 4173 esta ocupado.
+PORT = int(os.environ.get("PORT") or 4173)
 ROOT = os.path.dirname(os.path.abspath(__file__))
 ASSET_RE = re.compile(r'(?P<attr>(?:src|href)=")(?P<url>[^":?]+\.(?:css|js|jsx))"')
 

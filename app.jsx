@@ -149,6 +149,7 @@ function App() {
 
         <About/>
         <Showreel items={SHOWREEL_DATA}/>
+        <Session/>
         <Certificate/>
         <Services/>
         <Pricing/>

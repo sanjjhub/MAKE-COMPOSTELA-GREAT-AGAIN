@@ -712,6 +712,180 @@ img { max-width: 100%; display: block; }
   .reel__card { flex-basis: 74vw; }
 }
 
+/* ============ Ultima sesion ============ */
+.session {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  /* 0 = abajo y encogida, 1 = asentada. La rellena el JS al hacer scroll;
+     el valor 1 por defecto deja la seccion usable si el JS no llega. */
+  --avance: 1;
+  will-change: transform;
+  transform: translate3d(0, calc((1 - var(--avance)) * 68px), 0);
+  /* Las esquinas redondeadas al entrar y planas al asentarse son lo que
+     hace leer la seccion como un panel que sube por encima de la anterior. */
+  border-top-left-radius: calc((1 - var(--avance)) * 26px);
+  border-top-right-radius: calc((1 - var(--avance)) * 26px);
+}
+
+/* --- Fondo: loop de video desenfocado --- */
+.session__bg {
+  position: absolute; inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.session__bg-video,
+.session__bg-fallback {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* La escala tapa el halo transparente que deja el blur en los bordes.
+     El extra durante la subida crea el parallaje contra el contenido. */
+  transform: scale(calc(1.14 + (1 - var(--avance)) * 0.09));
+  filter: blur(10px) saturate(1.2) brightness(0.5);
+  transition: opacity .8s var(--ease);
+}
+/* Velo hacia el negro: sin el, el texto compite con el video */
+.session__bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%),
+    linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.34) 55%, rgba(0,0,0,0.6) 100%),
+    radial-gradient(120% 90% at 50% 50%, transparent 25%, rgba(0,0,0,0.45) 100%);
+}
+
+/* --- Contenido --- */
+.session__inner {
+  position: relative;
+  z-index: 1;
+  opacity: calc(0.2 + var(--avance) * 0.8);
+  transform: translate3d(0, calc((1 - var(--avance)) * 30px), 0);
+  /* .section deja el padding lateral en 0, y aqui la tarjeta lleva borde:
+     pegada al canto se ve como un error. */
+  padding: 0 var(--pad-x);
+  max-width: 1600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.session__card {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 40px 90px -50px rgba(0,0,0,0.9);
+  cursor: none;
+}
+.session__card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease-out);
+}
+.session__card:hover img { transform: scale(1.045); }
+.session__card::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.5));
+  pointer-events: none;
+}
+.session__play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62px; height: 62px;
+  border-radius: 999px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  z-index: 2;
+  transition: background .25s var(--ease), border-color .25s var(--ease),
+              transform .25s var(--ease);
+}
+.session__card:hover .session__play {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.session__duracion {
+  position: absolute;
+  left: 16px; bottom: 14px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  padding: 5px 11px;
+  border-radius: 999px;
+}
+
+.session__titulo {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(34px, 5vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 10px 0 0;
+  color: #fff;
+  text-wrap: balance;
+}
+.session__texto {
+  margin: 20px 0 0;
+  max-width: 48ch;
+  font-size: clamp(15px, 1.2vw, 18px);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.78);
+}
+.session__datos {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px 18px;
+  margin-top: 26px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+}
+.session__datos span + span::before {
+  content: "";
+  display: inline-block;
+  width: 4px; height: 4px;
+  border-radius: 999px;
+  background: var(--accent);
+  vertical-align: middle;
+  margin-right: 18px;
+}
+.session__cta {
+  margin-top: 30px;
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+.session__cta:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+@media (max-width: 860px) {
+  .session__inner { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .session__card img { transition: none; }
+  .session { --avance: 1; transform: none; border-radius: 0; }
+  .session__inner { opacity: 1; transform: none; }
+}
+
 /* ============ Certificate ============ */
 .cert {
   display: grid;
