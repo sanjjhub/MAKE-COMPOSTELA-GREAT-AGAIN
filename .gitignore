@@ -1,3 +1,7 @@
+# Huella local del bundle: dice si hay que recompilar. No se comparte,
+# porque cada maquina compila por su cuenta.
+build/.fuentes.sha256
+
 # Estado local del editor de imagenes
 .image-slots.state.json
 

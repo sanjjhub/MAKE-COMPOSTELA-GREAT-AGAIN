@@ -19,9 +19,6 @@ import subprocess
 import sys
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))
-BUNDLE = os.path.join(RAIZ, "build", "compostela.js")
-FUENTES = ["app.jsx", "hero.jsx", "sections.jsx", "extras.jsx",
-           "tweaks-panel.jsx", "cruz3d.jsx", "cruz-forma.js", "image-slot.js"]
 
 
 def git(*args, **kw):
@@ -35,17 +32,6 @@ def salir(mensaje):
     raise SystemExit(1)
 
 
-def hay_que_recompilar():
-    if not os.path.exists(BUNDLE):
-        return True
-    bundle = os.path.getmtime(BUNDLE)
-    for f in FUENTES:
-        ruta = os.path.join(RAIZ, f)
-        if os.path.exists(ruta) and os.path.getmtime(ruta) > bundle:
-            return True
-    return False
-
-
 def main():
     if len(sys.argv) < 2:
         salir('Falta el mensaje. Ejemplo:\n'
@@ -55,16 +41,13 @@ def main():
     if git("rev-parse", "--git-dir").returncode != 0:
         salir("Esta carpeta no es un repositorio de git.")
 
-    # 1. Recompilar si hace falta
-    if hay_que_recompilar():
-        print("Recompilando el bundle...")
-        r = subprocess.run([sys.executable, os.path.join("tools", "compilar.py")],
-                           cwd=RAIZ)
-        if r.returncode != 0:
-            salir("Fallo la compilacion. No se subio nada.")
-        print()
-    else:
-        print("El bundle ya esta al dia.\n")
+    # 1. Recompilar, pero solo si el codigo fuente cambio de verdad
+    print("Revisando el bundle...")
+    r = subprocess.run([sys.executable, os.path.join("tools", "compilar.py"),
+                        "--si-hace-falta"], cwd=RAIZ)
+    if r.returncode != 0:
+        salir("Fallo la compilacion. No se subio nada.")
+    print()
 
     # 2. Ver que cambio
     cambios = git("status", "--porcelain").stdout.strip()

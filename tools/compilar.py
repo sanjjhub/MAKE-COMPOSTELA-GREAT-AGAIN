@@ -10,6 +10,7 @@ en local, y el navegador recibe JavaScript ya compilado.
 Genera build/compostela.js. Ese archivo se versiona porque GitHub Pages sirve
 estaticos y no compila nada.
 """
+import hashlib
 import os
 import subprocess
 import sys
@@ -17,6 +18,10 @@ import sys
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BUILD = os.path.join(RAIZ, "build")
 SALIDA = os.path.join(BUILD, "compostela.js")
+# Huella del codigo fuente con el que se genero el bundle. Comparar fechas
+# no sirve: git reescribe los archivos al cambiar de rama y les pone fecha
+# nueva sin que su contenido haya cambiado.
+HUELLA = os.path.join(BUILD, ".fuentes.sha256")
 
 # El orden importa: cada archivo deja globales que usan los siguientes, y
 # app.jsx tiene que ir al final porque es el que monta la aplicacion.
@@ -53,8 +58,28 @@ def compilar(ruta):
     return r.stdout.decode("utf-8")
 
 
+def huella_actual():
+    h = hashlib.sha256()
+    for nombre in FUENTES:
+        with open(os.path.join(RAIZ, nombre), "rb") as fh:
+            h.update(nombre.encode("utf-8"))
+            h.update(fh.read())
+    return h.hexdigest()
+
+
+def esta_al_dia():
+    if not (os.path.exists(SALIDA) and os.path.exists(HUELLA)):
+        return False
+    with open(HUELLA, encoding="utf-8") as fh:
+        return fh.read().strip() == huella_actual()
+
+
 def main():
     os.makedirs(BUILD, exist_ok=True)
+
+    if "--si-hace-falta" in sys.argv and esta_al_dia():
+        print("  El bundle ya esta al dia.")
+        return
     partes = ["/* Generado por tools/compilar.py — no editar a mano. */"]
     total_fuente = 0
 
@@ -70,6 +95,9 @@ def main():
 
     with open(SALIDA, "w", encoding="utf-8", newline="\n") as fh:
         fh.write("\n".join(partes) + "\n")
+
+    with open(HUELLA, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(huella_actual() + "\n")
 
     final = os.path.getsize(SALIDA)
     print()
