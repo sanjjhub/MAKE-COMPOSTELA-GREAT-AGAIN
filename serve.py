@@ -14,7 +14,6 @@ import http.server
 import io
 import os
 import re
-import socketserver
 
 # El puerto puede venir del entorno: asi el arrancador puede asignar otro
 # libre si el 4173 esta ocupado.
@@ -62,11 +61,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass
 
+    def handle_one_request(self):
+        # El navegador abre varias conexiones y cierra las que no llega a usar.
+        # En Windows eso lanza un ConnectionAbortedError que llenaba la consola
+        # de trazas sin que pasara nada malo.
+        try:
+            super().handle_one_request()
+        except (ConnectionAbortedError, ConnectionResetError):
+            self.close_connection = True
+
 
 if __name__ == "__main__":
-    socketserver.TCPServer.allow_reuse_address = True
+    # Con un solo hilo el servidor atiende una conexion cada vez, y como el
+    # navegador abre varias a la vez y las mantiene vivas, la pagina se
+    # quedaba a medio cargar.
+    http.server.ThreadingHTTPServer.allow_reuse_address = True
+    http.server.ThreadingHTTPServer.daemon_threads = True
     handler = functools.partial(Handler, directory=ROOT)
-    with socketserver.TCPServer(("127.0.0.1", PORT), handler) as httpd:
+    with http.server.ThreadingHTTPServer(("127.0.0.1", PORT), handler) as httpd:
         print("Compostela -> http://localhost:{}".format(PORT))
         try:
             httpd.serve_forever()
