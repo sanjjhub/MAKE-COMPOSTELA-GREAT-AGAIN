@@ -85,6 +85,18 @@ function Nav() {
 }
 
 function Hero() {
+  // La cruz 3D ocupa el hueco de la T, asi que el wordmark va sin ella. Si no
+  // se puede animar, vuelve el logo entero de siempre.
+  const [cruz3d] = useState(hayCruz3D);
+  // Mientras el wordmark sube, el hero lo recorta por arriba. Despues hay que
+  // soltar el recorte: la cruz al girar se sale un poco de su caja.
+  const [abierto, setAbierto] = useState(!cruz3d);
+  useEffect(() => {
+    if (abierto) return;
+    const t = setTimeout(() => setAbierto(true), 1500);
+    return () => clearTimeout(t);
+  }, [abierto]);
+
   return (
     <section className="hero" id="top">
       <div className="hero__photo-bg">
@@ -109,8 +121,11 @@ function Hero() {
 
       <h1 className="hero__title">
         <span className="hero__title-sr">Compostela</span>
-        <span className="hero__logo" aria-hidden="true">
-          <span className="logo logo--word-tight hero__logo-mark"></span>
+        <span className={"hero__logo " + (abierto ? "is-open" : "")} aria-hidden="true">
+          <span className="hero__logo-stage">
+            <span className={"logo hero__logo-mark " + (cruz3d ? "logo--word-nocross" : "logo--word-tight")}></span>
+            {cruz3d && <Cruz3D/>}
+          </span>
         </span>
       </h1>
 

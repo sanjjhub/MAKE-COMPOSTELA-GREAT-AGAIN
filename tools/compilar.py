@@ -23,6 +23,8 @@ SALIDA = os.path.join(BUILD, "compostela.js")
 FUENTES = [
     "image-slot.js",
     "tweaks-panel.jsx",
+    "cruz-forma.js",
+    "cruz3d.jsx",
     "hero.jsx",
     "sections.jsx",
     "extras.jsx",

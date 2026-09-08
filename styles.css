@@ -363,18 +363,34 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   padding-bottom: 0.5vw;
 }
+/* Al girar, la cruz 3D se sale un poco de la caja del wordmark. El recorte
+   solo hace falta mientras el logo sube en la entrada. */
+.hero__logo.is-open { overflow: visible; }
+.hero__logo-stage {
+  display: block;
+  position: relative;
+  transform: translateY(115%);
+  animation: heroUp 1.2s var(--ease-out) 0.25s forwards;
+}
 .hero__logo-mark {
   display: block;
   width: 100%;
   aspect-ratio: 2914 / 399;
   color: var(--logo);
-  transform: translateY(115%);
-  animation: heroUp 1.2s var(--ease-out) 0.25s forwards;
 }
 @keyframes heroUp { to { transform: translateY(0); } }
 
+/* La cruz de Santiago en 3D, justo en el hueco de la T del wordmark. La
+   posicion exacta la calcula cruz3d.jsx a partir de cruz-forma.js. */
+.cruz3d {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .hero__logo-mark { transform: none; animation: none; }
+  .hero__logo-stage { transform: none; animation: none; }
 }
 
 .hero__sub {
@@ -1509,6 +1525,8 @@ image-slot {
 .logo--word    { mask-image: url('assets/logo-wordmark.png'); -webkit-mask-image: url('assets/logo-wordmark.png'); }
 .logo--stacked { mask-image: url('assets/logo-stacked.png');  -webkit-mask-image: url('assets/logo-stacked.png'); }
 .logo--word-tight { mask-image: url('assets/logo-wordmark-tight.png'); -webkit-mask-image: url('assets/logo-wordmark-tight.png'); }
+/* El mismo wordmark sin la cruz de la T: ese hueco lo ocupa el canvas 3D. */
+.logo--word-nocross { mask-image: url('assets/logo-wordmark-nocross.png'); -webkit-mask-image: url('assets/logo-wordmark-nocross.png'); }
 
 @keyframes logoSpin { to { transform: rotate(360deg); } }
 
