@@ -102,7 +102,7 @@ function Services() {
       <SectionHead
         kicker="02 / Servicios"
         eyebrow="Donde toca Compostela"
-        title="Ocho formatos, una sola filosofía: la pista no se baja."
+        title="Nueve formatos, una sola filosofía: la pista no se baja."
       />
       <div className="svc__grid reveal-stagger">
         {SERVICES.map((s, i) => (

@@ -738,6 +738,15 @@ img { max-width: 100%; display: block; }
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  /* Pantalla completa: al bajar hasta aqui la seccion se lee como un plano
+     entero de video, no como una franja. svh en vez de vh para que la barra
+     del navegador movil no deje un trozo cortado. */
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  /* El respiro vertical propio de una seccion, pero sin obligarla a crecer
+     mas alla de la pantalla cuando el contenido ya cabe holgado. */
+  padding-block: clamp(72px, 9vh, 130px);
   /* 0 = abajo y encogida, 1 = asentada. La rellena el JS al hacer scroll;
      el valor 1 por defecto deja la seccion usable si el JS no llega. */
   --avance: 1;
@@ -763,7 +772,7 @@ img { max-width: 100%; display: block; }
   /* La escala tapa el halo transparente que deja el blur en los bordes.
      El extra durante la subida crea el parallaje contra el contenido. */
   transform: scale(calc(1.14 + (1 - var(--avance)) * 0.09));
-  filter: blur(10px) saturate(1.2) brightness(0.5);
+  filter: blur(10px) saturate(1.2) brightness(0.72);
   transition: opacity .8s var(--ease);
 }
 /* Sin velos ni vinetas: el video se ve limpio de borde a borde. El contraste
@@ -773,6 +782,7 @@ img { max-width: 100%; display: block; }
 .session__inner {
   position: relative;
   z-index: 1;
+  width: 100%;
   opacity: calc(0.2 + var(--avance) * 0.8);
   transform: translate3d(0, calc((1 - var(--avance)) * 30px), 0);
   padding: 0 var(--pad-x);
