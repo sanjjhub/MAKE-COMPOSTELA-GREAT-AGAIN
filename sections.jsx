@@ -22,7 +22,7 @@ function About() {
     { k: "Formatos",        v: "Discoteca · Privado · Boda · Universidad · Beach · Corporate" },
     { k: "Duración de set", v: "Hasta 4h, curado por bloques" },
     { k: "Equipo",          v: "Pioneer CDJ / DDJ + mixer" },
-    { k: "Formación",       v: "DJ Profesional · ShowRots, 2024" },
+    { k: "Formación",       v: "DJ Profesional · ShowRoots, 2026" },
     { k: "Idiomas",         v: "Español / Inglés" },
     { k: "Disponibilidad",  v: "2026 — early 2027", live: true },
   ];
@@ -318,8 +318,8 @@ function Certificate() {
     <section className="section shell" id="certificate">
       <div className="cert">
         <div className="cert__frame reveal">
-          <div className="cert__ribbon">Certified · 2024</div>
-          <image-slot id="certificate" placeholder="Diploma ShowRots"></image-slot>
+          <div className="cert__ribbon">Certified · 2026</div>
+          <image-slot id="certificate" placeholder="Diploma ShowRoots" src="assets/certificado-showroots.png"></image-slot>
           <div className="cert__seal">
             <span className="logo logo--mark cert__seal-ring"></span>
             <div className="cert__seal-inner">DJ</div>
@@ -327,16 +327,16 @@ function Certificate() {
         </div>
         <div className="cert__info reveal">
           <span className="eyebrow">Credenciales</span>
-          <h2 className="h-section">Certificado profesional<br/>de DJ — ShowRots.</h2>
+          <h2 className="h-section">Certificado profesional<br/>de DJ — ShowRoots.</h2>
           <p>
-            Formación profesional en mezcla, beatmatching, harmonic mixing, manejo de consolas Pioneer y producción aplicada a sets en vivo. Programa completo dictado por la academia ShowRots.
+            Formación profesional en mezcla, beatmatching, harmonic mixing, manejo de consolas Pioneer y producción aplicada a sets en vivo. Programa completo dictado por la academia ShowRoots.
           </p>
           <p style={{ color: "var(--muted)", fontSize: 15 }}>
             Más allá del título, este programa fundamentó la disciplina técnica que sostiene cada set: equipos calibrados, transiciones limpias y lectura precisa de pista.
           </p>
           <dl className="cert__meta">
-            <div><dt>Academia</dt><dd>ShowRots</dd></div>
-            <div><dt>Año</dt><dd>2024</dd></div>
+            <div><dt>Academia</dt><dd>ShowRoots</dd></div>
+            <div><dt>Año</dt><dd>2026</dd></div>
             <div><dt>Programa</dt><dd>DJ Profesional</dd></div>
             <div><dt>Estado</dt><dd>Graduado</dd></div>
           </dl>

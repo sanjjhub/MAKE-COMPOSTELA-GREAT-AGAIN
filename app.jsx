@@ -83,7 +83,7 @@ function useScrollReveal() {
 
 const SHOWREEL_DATA = [
   { title: "Lazy Eye Records · Night Session", tag: "Club · Reel", duration: "01:14", img: "assets/image4.jpg" },
-  { title: "Summer Pool Session", tag: "Beach · 60min", duration: "60:24", img: "assets/image.jpg" },
+  { title: "Summer Pool Session", tag: "Beach · 38min", duration: "38:20", img: "assets/image.jpg" },
   { title: "Rooftop Skyline · Sunset Set", tag: "Open Air", duration: "45:12", img: "assets/image2.jpg" },
   { title: "Terrace Live · Open Format", tag: "Private · Reel", duration: "00:48", img: "assets/image3.jpg" },
   { title: "Sunlit Mixes · Showreel", tag: "Festival · Reel", duration: "01:00", img: "assets/foto6.jpg" },

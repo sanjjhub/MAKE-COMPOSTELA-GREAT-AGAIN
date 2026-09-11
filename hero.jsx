@@ -112,10 +112,6 @@ function Hero() {
         <div className="hero__loc">
           <div><strong>BASED IN</strong> · PANAMÁ</div>
           <div style={{ marginTop: 8 }}>AVAILABLE FOR BOOKING · 2026</div>
-          <div style={{ marginTop: 8, display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ width: 6, height: 6, borderRadius: 999, background: "var(--accent)", display: "inline-block", boxShadow: "0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent)" }}></span>
-            <span>STATUS — ON TOUR</span>
-          </div>
         </div>
       </div>
 
