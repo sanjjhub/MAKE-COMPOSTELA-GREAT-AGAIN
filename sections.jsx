@@ -318,7 +318,6 @@ function Certificate() {
     <section className="section shell" id="certificate">
       <div className="cert">
         <div className="cert__frame reveal">
-          <div className="cert__ribbon">Certified · 2026</div>
           <image-slot id="certificate" placeholder="Diploma ShowRoots" src="assets/certificado-showroots.png"></image-slot>
           <div className="cert__seal">
             <span className="logo logo--mark cert__seal-ring"></span>
