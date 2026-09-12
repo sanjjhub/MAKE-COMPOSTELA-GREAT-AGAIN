@@ -269,11 +269,12 @@ function Pricing() {
 
 /* ---------- SOCIAL ---------- */
 const SOCIALS = [
-  { plat: "Instagram",  handle: "@compostela.pty",  url: "https://www.instagram.com/compostela.pty/" },
-  { plat: "TikTok",     handle: "@compostela.ptyy", url: "https://www.tiktok.com/@compostela.ptyy" },
-  { plat: "YouTube",    handle: "@djcompostela",    url: "https://www.youtube.com/@djcompostela" },
-  { plat: "SoundCloud", handle: "/compostela",      url: "https://soundcloud.com/compostela-103016286" },
-  { plat: "WhatsApp",   handle: "+507 6388-7908",   url: WHATSAPP },
+  { plat: "Instagram",  handle: "@compostela.pty",       url: "https://www.instagram.com/compostela.pty/" },
+  { plat: "TikTok",     handle: "@compostela.ptyy",      url: "https://www.tiktok.com/@compostela.ptyy" },
+  { plat: "YouTube",    handle: "@djcompostela",         url: "https://www.youtube.com/@djcompostela" },
+  { plat: "SoundCloud", handle: "/compostela",           url: "https://soundcloud.com/compostela-103016286" },
+  { plat: "WhatsApp",   handle: "+507 6388-7908",        url: WHATSAPP },
+  { plat: "Email",      handle: "djcompostela@gmail.com", url: "mailto:djcompostela@gmail.com" },
 ];
 
 function Social() {
