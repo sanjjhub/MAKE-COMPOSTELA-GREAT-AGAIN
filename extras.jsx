@@ -304,7 +304,14 @@ function Pricing() {
       </div>
 
       {quotePkg && <QuoteModal pkg={quotePkg} onClose={() => setQuotePkg(null)}/>}
+    </section>
+  );
+}
 
+/* ---------- BOOK CTA (franja "¿Listo para asegurar tu fecha?") ---------- */
+function BookCTA() {
+  return (
+    <section className="section shell" id="book-cta">
       <div className="book reveal">
         <div className="book__photo">
           <img src="assets/booking.jpg" alt="" loading="lazy"/>
@@ -314,7 +321,7 @@ function Pricing() {
           <p>Cuéntanos del evento. Aforo, ubicación, fecha, horario y referencia musical. Te responderemos con una cotización personalizada en menos de 24 horas.</p>
         </div>
         <div className="book__actions">
-          <a href="#contact" className="btn">Solicitar cotización <Arrow/></a>
+          <a href="#pricing" className="btn">Solicitar cotización <Arrow/></a>
           <a href={WHATSAPP} target="_blank" rel="noopener noreferrer" className="btn btn--ghost"><IconWhatsapp/> WhatsApp</a>
         </div>
       </div>
@@ -406,5 +413,6 @@ function Footer() {
 
 window.Services = Services;
 window.Pricing = Pricing;
+window.BookCTA = BookCTA;
 window.Social = Social;
 window.Footer = Footer;
