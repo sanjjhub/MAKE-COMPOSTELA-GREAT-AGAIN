@@ -90,10 +90,9 @@ const SERVICES = [
   { i: <IconCake/>, t: "Cumpleaños", d: "Del coro de feliz cumpleaños al peak hour, sin perder el público." },
   { i: <IconRings/>, t: "Bodas", d: "Cocktail, ceremonia, pista. Sets diseñados por bloques." },
   { i: <IconCap/>, t: "Eventos Universitarios", d: "Fiestas, semanas culturales y lanzamientos juveniles." },
-  { i: <IconCake/>, t: "Quinceaños", d: "Entrada, vals y peak hour. La noche entera por bloques." },
+  { i: <IconMix/>, t: "Open Format Sessions", d: "Sets versátiles para públicos diversos." },
   { i: <IconWave/>, t: "Beach Parties", d: "Sunset hasta after — house, afro y latin urban." },
   { i: <IconCorporate/>, t: "Corporate Events", d: "Sets ambient + dance con curaduría profesional." },
-  { i: <IconMix/>, t: "Open Format Sessions", d: "Sets versátiles para públicos diversos." },
 ];
 
 function Services() {
@@ -102,7 +101,7 @@ function Services() {
       <SectionHead
         kicker="02 / Servicios"
         eyebrow="Donde toca Compostela"
-        title="Nueve formatos, una sola filosofía: la pista no se baja."
+        title="Ocho formatos, una sola filosofía: la pista no se baja."
       />
       <div className="svc__grid reveal-stagger">
         {SERVICES.map((s, i) => (
