@@ -5,7 +5,18 @@
 const WHATSAPP = "https://wa.me/50763887908";
 const EMAIL = "djcompostela@gmail.com";
 
-const { useState: useStateP } = React;
+const { useState: useStateP, useEffect: useEffectP } = React;
+
+/* Tramos de presupuesto para el formulario de cotizacion — nunca un numero
+   exacto (política de precios: el número se conversa por chat, lo cierra
+   Miguel). Esto es lo que reemplaza la cifra pública: deja calificar al
+   lead sin publicar tarifa. */
+const BUDGET_TIERS = [
+  "Menos de $150",
+  "$150 – $300",
+  "$300 – $500",
+  "Más de $500",
+];
 
 /* ---------- SERVICE ICONS (simple geometric, original) ---------- */
 function IconDisco() {
@@ -130,25 +141,25 @@ const PRICE_DATA = {
   format: [
     {
       cat: "Esencial", name: "Solo DJ", desc: "Compostela mezclando sobre tu equipo existente. Ideal para venues con sonido propio.",
-      price: "—", currency: "USD / hora", feat: false,
+      price: "Consultar", currency: "USD / hora", feat: false,
       list: ["Set en vivo de hasta 4h", "Curaduría previa por bloques", "Pendrive backup y consola requerimientos"],
       obs: "Aplica si la venue cuenta con consola Pioneer y sistema de sonido.",
     },
     {
       cat: "Más solicitado", name: "DJ + Consola", desc: "Equipo profesional incluido. Compostela llega listo a montar y conectar.",
-      price: "—", currency: "USD / evento", feat: true,
+      price: "Consultar", currency: "USD / evento", feat: true,
       list: ["Consola Pioneer DDJ/CDJ + Mixer", "Audífonos pro & cabling", "Setup en venue ≤ 45 min", "Backup técnico"],
       obs: "Recomendado para eventos privados sin equipo propio.",
     },
     {
       cat: "Premium", name: "DJ + Sonido", desc: "Sistema de sonido escalable según público y locación.",
-      price: "—", currency: "USD / evento", feat: false,
+      price: "Consultar", currency: "USD / evento", feat: false,
       list: ["Line array para 50–300+ personas", "Subwoofers + monitores", "Técnico de sonido in-situ", "Consola + cabinas DJ"],
       obs: "Cotiza según aforo y locación.",
     },
     {
       cat: "Visual", name: "DJ + Luces", desc: "Diseño lumínico sincronizado con el set y la energía del público.",
-      price: "—", currency: "USD / evento", feat: false,
+      price: "Consultar", currency: "USD / evento", feat: false,
       list: ["Heads móviles + wash + strobe", "Programación DMX por bloques", "Hazer / fog opcional", "Operador lumínico"],
       obs: "Compatible con paquete DJ + Sonido.",
     },
@@ -156,19 +167,19 @@ const PRICE_DATA = {
   scale: [
     {
       cat: "Hasta 80 personas", name: "Evento pequeño", desc: "Cumpleaños, reuniones íntimas, recepciones cerradas.",
-      price: "—", currency: "USD / 3h base", feat: false,
+      price: "Consultar", currency: "USD / 3h base", feat: false,
       list: ["DJ + consola compacta", "Audio para 80 pax", "Curaduría open format", "1h adicional disponible"],
       obs: "Set base 3h, escalable.",
     },
     {
       cat: "80 – 250 personas", name: "Evento mediano", desc: "Bodas, eventos universitarios, fiestas privadas amplias.",
-      price: "—", currency: "USD / 4h base", feat: true,
+      price: "Consultar", currency: "USD / 4h base", feat: true,
       list: ["DJ + sonido escalable", "Luces básicas incluidas", "Coordinación con maestro de ceremonia", "Reunión previa de curaduría"],
       obs: "El más solicitado para bodas y eventos universitarios.",
     },
     {
       cat: "250 – 1000+ personas", name: "Evento grande", desc: "Discotecas, festivales, lanzamientos corporativos y conciertos.",
-      price: "—", currency: "USD / evento", feat: false,
+      price: "Consultar", currency: "USD / evento", feat: false,
       list: ["Full production disponible", "Rider técnico personalizado", "Equipo de soporte completo", "Visuales LED opcionales"],
       obs: "Cotización a medida tras briefing.",
     },
@@ -176,19 +187,19 @@ const PRICE_DATA = {
   extras: [
     {
       cat: "Extras", name: "Horas adicionales", desc: "Hora extra sobre el set contratado, sin pérdida de energía.",
-      price: "—", currency: "USD / hora", feat: false,
+      price: "Consultar", currency: "USD / hora", feat: false,
       list: ["Mismo equipo técnico", "Sin recargo nocturno hasta 03:00", "Posterior a 03:00 aplica +20%"],
       obs: "Solicitar idealmente con 24h de anticipación.",
     },
     {
       cat: "Logística", name: "Viajes fuera de ciudad", desc: "Cobertura nacional e internacional con logística completa.",
-      price: "—", currency: "USD + travel", feat: false,
+      price: "Consultar", currency: "USD + travel", feat: false,
       list: ["Transporte ida y vuelta", "Alojamiento si aplica", "Per diem técnico", "Cobertura de equipo extra"],
       obs: "Cotización por destino y duración.",
     },
     {
       cat: "Add-on", name: "Sesión grabada", desc: "Set grabado en audio y/o video para redes y portfolio.",
-      price: "—", currency: "USD / set", feat: false,
+      price: "Consultar", currency: "USD / set", feat: false,
       list: ["Audio profesional master 16-bit", "Video multicámara opcional", "Edit para reels (15 / 30 / 60s)", "Licencia de uso compartido"],
       obs: "Producto entregable en 7–10 días hábiles.",
     },
@@ -203,8 +214,108 @@ function IconWhatsapp() {
   );
 }
 
+/* ---------- QUOTE MODAL ----------
+   Se abre al pedir cotización de un paquete. No cotiza ningún número: solo
+   califica el lead (los 5 datos de la política de precios + presupuesto)
+   y arma un mensaje de WhatsApp para Miguel. Estética tomada del EPK PDF:
+   panel negro fijo, wordmark, barra magenta, etiquetas mono en mayúscula. */
+function QuoteModal({ pkg, onClose }) {
+  const [form, setForm] = useStateP({
+    nombre: "", fecha: "", ubicacion: "", aforo: "", horario: "",
+    referencia: "", presupuesto: "",
+  });
+
+  useEffectP(() => {
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+
+  const listo = form.fecha && form.ubicacion && form.aforo && form.horario && form.referencia;
+
+  const enviar = (e) => {
+    e.preventDefault();
+    const lineas = [
+      `Hola! Quiero cotizar *${pkg.name}* (${pkg.cat}).`,
+      "",
+      `Nombre: ${form.nombre || "-"}`,
+      `Fecha: ${form.fecha}`,
+      `Ubicación: ${form.ubicacion}`,
+      `Aforo estimado: ${form.aforo}`,
+      `Horario y duración: ${form.horario}`,
+      `Referencia musical: ${form.referencia}`,
+      `Presupuesto: ${form.presupuesto || "No especificado"}`,
+    ];
+    const msg = encodeURIComponent(lineas.join("\n"));
+    window.open(`${WHATSAPP}?text=${msg}`, "_blank", "noopener,noreferrer");
+    onClose();
+  };
+
+  return (
+    <div className="qm__overlay" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="qm__panel">
+        <button className="qm__close" onClick={onClose} aria-label="Cerrar">✕</button>
+
+        <div className="qm__head">
+          <span className="logo logo--word qm__logo" style={{ color: "#fff" }} aria-label="COMPOSTELA"></span>
+          <div className="qm__bar"></div>
+          <div className="qm__eyebrow">Cotización personalizada</div>
+          <h3 className="qm__title">{pkg.name}</h3>
+          <p className="qm__sub">{pkg.cat} · Respuesta en menos de 24 horas</p>
+        </div>
+
+        <form onSubmit={enviar} className="qm__form">
+          <label className="qm__field">
+            <span>Nombre</span>
+            <input type="text" value={form.nombre} onChange={set("nombre")} placeholder="¿Cómo te llamas?"/>
+          </label>
+          <label className="qm__field">
+            <span>Fecha del evento *</span>
+            <input type="date" value={form.fecha} onChange={set("fecha")} required/>
+          </label>
+          <label className="qm__field">
+            <span>Ubicación *</span>
+            <input type="text" value={form.ubicacion} onChange={set("ubicacion")} placeholder="Venue o zona" required/>
+          </label>
+          <label className="qm__field">
+            <span>Aforo estimado *</span>
+            <input type="text" value={form.aforo} onChange={set("aforo")} placeholder="Ej. 80 personas" required/>
+          </label>
+          <label className="qm__field">
+            <span>Horario y duración *</span>
+            <input type="text" value={form.horario} onChange={set("horario")} placeholder="Ej. 9pm – 1am" required/>
+          </label>
+          <label className="qm__field">
+            <span>Referencia musical *</span>
+            <input type="text" value={form.referencia} onChange={set("referencia")} placeholder="Ej. Reggaeton + house, sin tropical" required/>
+          </label>
+          <label className="qm__field">
+            <span>Rango de presupuesto</span>
+            <select value={form.presupuesto} onChange={set("presupuesto")}>
+              <option value="">Prefiero no decir</option>
+              {BUDGET_TIERS.map((t, i) => <option key={i} value={t}>{t}</option>)}
+            </select>
+          </label>
+
+          <button type="submit" className="qm__submit" disabled={!listo}>
+            <IconWhatsapp/> <span>Enviar por WhatsApp</span>
+          </button>
+          <p className="qm__note">* Campos requeridos por la política de cotización — sin ellos no podemos armar un precio preciso.</p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function Pricing() {
   const [tab, setTab] = useStateP("format");
+  const [quotePkg, setQuotePkg] = useStateP(null);
   const data = PRICE_DATA[tab];
   return (
     <section className="section shell" id="pricing">
@@ -241,13 +352,15 @@ function Pricing() {
               {p.list.map((l, j) => <li key={j} contentEditable suppressContentEditableWarning>{l}</li>)}
             </ul>
             <div className="price__obs" contentEditable suppressContentEditableWarning>★ {p.obs}</div>
-            <button className="price__cta">
+            <button className="price__cta" onClick={() => setQuotePkg(p)}>
               <span>Solicitar cotización</span>
               <Arrow size={12}/>
             </button>
           </div>
         ))}
       </div>
+
+      {quotePkg && <QuoteModal pkg={quotePkg} onClose={() => setQuotePkg(null)}/>}
 
       <div className="book reveal">
         <div className="book__photo">

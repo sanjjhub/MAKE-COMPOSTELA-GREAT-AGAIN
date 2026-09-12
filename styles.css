@@ -1722,3 +1722,127 @@ image-slot {
 }
 .theme-toggle:hover { transform: translateY(-2px) rotate(20deg); background: var(--accent); }
 @media (max-width: 768px) { .theme-toggle { cursor: pointer; } }
+
+/* ============ Quote modal (estetica del EPK: panel negro, wordmark, barra magenta) ============ */
+.qm__overlay {
+  position: fixed; inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow-y: auto;
+  padding: clamp(24px, 6vw, 64px) 20px;
+}
+.qm__panel {
+  position: relative;
+  width: 100%; max-width: 480px;
+  background: var(--panel);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 4px;
+  box-shadow: 0 40px 80px -20px rgba(0,0,0,0.6);
+  padding: clamp(28px, 5vw, 40px);
+  animation: qmIn .28s var(--ease-out);
+}
+@keyframes qmIn {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.qm__close {
+  position: absolute; top: 16px; right: 16px;
+  width: 32px; height: 32px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.16);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background .2s var(--ease);
+}
+.qm__close:hover { background: var(--accent); border-color: var(--accent); }
+.qm__head { margin-bottom: 28px; }
+.qm__logo { width: 130px; height: 26px; display: inline-block; margin-bottom: 18px; }
+.qm__bar {
+  height: 2px; width: 48px;
+  background: var(--accent);
+  margin-bottom: 18px;
+}
+.qm__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.qm__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 4vw, 30px);
+  letter-spacing: -0.02em;
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+.qm__sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin: 0;
+}
+.qm__form { display: flex; flex-direction: column; gap: 16px; }
+.qm__field { display: flex; flex-direction: column; gap: 6px; }
+.qm__field span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.qm__field input, .qm__field select {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 4px;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color .2s var(--ease), background .2s var(--ease);
+}
+.qm__field input::placeholder { color: rgba(255,255,255,0.32); }
+.qm__field input:focus, .qm__field select:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.09);
+}
+.qm__field select { appearance: none; cursor: pointer; }
+.qm__field select option { background: #0c0c0c; color: #fff; }
+.qm__submit {
+  margin-top: 8px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: #000;
+  background: var(--accent);
+  border: none;
+  border-radius: 4px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: transform .2s var(--ease), opacity .2s var(--ease);
+}
+.qm__submit:hover:not(:disabled) { transform: translateY(-1px); }
+.qm__submit:disabled { opacity: 0.35; cursor: not-allowed; }
+.qm__note {
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.4);
+  margin: 0;
+}
+@media (max-width: 480px) {
+  .qm__panel { padding: 24px 20px; }
+}
