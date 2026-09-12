@@ -24,7 +24,7 @@ function About() {
     { k: "Equipo",          v: "Pioneer CDJ / DDJ + mixer" },
     { k: "Formación",       v: "DJ Profesional · ShowRoots, 2026" },
     { k: "Idiomas",         v: "Español / Inglés" },
-    { k: "Disponibilidad",  v: "2026 — early 2027", live: true },
+    { k: "Disponibilidad",  v: "2026 — early 2027" },
   ];
   return (
     <section className="section shell" id="about">
