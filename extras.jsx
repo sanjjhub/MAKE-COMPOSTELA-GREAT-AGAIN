@@ -131,80 +131,32 @@ function Services() {
 }
 
 /* ---------- PRICING ---------- */
-const PRICE_TABS = [
-  { id: "format", label: "Por formato" },
-  { id: "scale", label: "Por tamaño de evento" },
-  { id: "extras", label: "Extras & adicionales" },
+const PACKAGES = [
+  {
+    cat: "Esencial", name: "Solo DJ", desc: "Compostela mezclando sobre tu equipo existente. Ideal para venues con sonido propio.",
+    price: "Consultar", currency: "USD / hora", feat: false,
+    list: ["Set en vivo de hasta 4h", "Curaduría previa por bloques", "Pendrive backup y consola requerimientos"],
+    obs: "Aplica si la venue cuenta con consola Pioneer y sistema de sonido.",
+  },
+  {
+    cat: "Más solicitado", name: "DJ + Consola", desc: "Equipo profesional incluido. Compostela llega listo a montar y conectar.",
+    price: "Consultar", currency: "USD / evento", feat: true,
+    list: ["Consola Pioneer DDJ/CDJ + Mixer", "Audífonos pro & cabling", "Setup en venue ≤ 45 min", "Backup técnico"],
+    obs: "Recomendado para eventos privados sin equipo propio.",
+  },
+  {
+    cat: "Premium", name: "DJ + Sonido", desc: "Sistema de sonido escalable según público y locación.",
+    price: "Consultar", currency: "USD / evento", feat: false,
+    list: ["Line array para 50–300+ personas", "Subwoofers + monitores", "Técnico de sonido in-situ", "Consola + cabinas DJ"],
+    obs: "Cotiza según aforo y locación.",
+  },
+  {
+    cat: "Visual", name: "DJ + Luces", desc: "Diseño lumínico sincronizado con el set y la energía del público.",
+    price: "Consultar", currency: "USD / evento", feat: false,
+    list: ["Heads móviles + wash + strobe", "Programación DMX por bloques", "Hazer / fog opcional", "Operador lumínico"],
+    obs: "Compatible con paquete DJ + Sonido.",
+  },
 ];
-
-const PRICE_DATA = {
-  format: [
-    {
-      cat: "Esencial", name: "Solo DJ", desc: "Compostela mezclando sobre tu equipo existente. Ideal para venues con sonido propio.",
-      price: "Consultar", currency: "USD / hora", feat: false,
-      list: ["Set en vivo de hasta 4h", "Curaduría previa por bloques", "Pendrive backup y consola requerimientos"],
-      obs: "Aplica si la venue cuenta con consola Pioneer y sistema de sonido.",
-    },
-    {
-      cat: "Más solicitado", name: "DJ + Consola", desc: "Equipo profesional incluido. Compostela llega listo a montar y conectar.",
-      price: "Consultar", currency: "USD / evento", feat: true,
-      list: ["Consola Pioneer DDJ/CDJ + Mixer", "Audífonos pro & cabling", "Setup en venue ≤ 45 min", "Backup técnico"],
-      obs: "Recomendado para eventos privados sin equipo propio.",
-    },
-    {
-      cat: "Premium", name: "DJ + Sonido", desc: "Sistema de sonido escalable según público y locación.",
-      price: "Consultar", currency: "USD / evento", feat: false,
-      list: ["Line array para 50–300+ personas", "Subwoofers + monitores", "Técnico de sonido in-situ", "Consola + cabinas DJ"],
-      obs: "Cotiza según aforo y locación.",
-    },
-    {
-      cat: "Visual", name: "DJ + Luces", desc: "Diseño lumínico sincronizado con el set y la energía del público.",
-      price: "Consultar", currency: "USD / evento", feat: false,
-      list: ["Heads móviles + wash + strobe", "Programación DMX por bloques", "Hazer / fog opcional", "Operador lumínico"],
-      obs: "Compatible con paquete DJ + Sonido.",
-    },
-          ],
-  scale: [
-    {
-      cat: "Hasta 80 personas", name: "Evento pequeño", desc: "Cumpleaños, reuniones íntimas, recepciones cerradas.",
-      price: "Consultar", currency: "USD / 3h base", feat: false,
-      list: ["DJ + consola compacta", "Audio para 80 pax", "Curaduría open format", "1h adicional disponible"],
-      obs: "Set base 3h, escalable.",
-    },
-    {
-      cat: "80 – 250 personas", name: "Evento mediano", desc: "Bodas, eventos universitarios, fiestas privadas amplias.",
-      price: "Consultar", currency: "USD / 4h base", feat: true,
-      list: ["DJ + sonido escalable", "Luces básicas incluidas", "Coordinación con maestro de ceremonia", "Reunión previa de curaduría"],
-      obs: "El más solicitado para bodas y eventos universitarios.",
-    },
-    {
-      cat: "250 – 1000+ personas", name: "Evento grande", desc: "Discotecas, festivales, lanzamientos corporativos y conciertos.",
-      price: "Consultar", currency: "USD / evento", feat: false,
-      list: ["Full production disponible", "Rider técnico personalizado", "Equipo de soporte completo", "Visuales LED opcionales"],
-      obs: "Cotización a medida tras briefing.",
-    },
-  ],
-  extras: [
-    {
-      cat: "Extras", name: "Horas adicionales", desc: "Hora extra sobre el set contratado, sin pérdida de energía.",
-      price: "Consultar", currency: "USD / hora", feat: false,
-      list: ["Mismo equipo técnico", "Sin recargo nocturno hasta 03:00", "Posterior a 03:00 aplica +20%"],
-      obs: "Solicitar idealmente con 24h de anticipación.",
-    },
-    {
-      cat: "Logística", name: "Viajes fuera de ciudad", desc: "Cobertura nacional e internacional con logística completa.",
-      price: "Consultar", currency: "USD + travel", feat: false,
-      list: ["Transporte ida y vuelta", "Alojamiento si aplica", "Per diem técnico", "Cobertura de equipo extra"],
-      obs: "Cotización por destino y duración.",
-    },
-    {
-      cat: "Add-on", name: "Sesión grabada", desc: "Set grabado en audio y/o video para redes y portfolio.",
-      price: "Consultar", currency: "USD / set", feat: false,
-      list: ["Audio profesional master 16-bit", "Video multicámara opcional", "Edit para reels (15 / 30 / 60s)", "Licencia de uso compartido"],
-      obs: "Producto entregable en 7–10 días hábiles.",
-    },
-  ],
-};
 
 function IconWhatsapp() {
   return (
@@ -314,9 +266,8 @@ function QuoteModal({ pkg, onClose }) {
 }
 
 function Pricing() {
-  const [tab, setTab] = useStateP("format");
   const [quotePkg, setQuotePkg] = useStateP(null);
-  const data = PRICE_DATA[tab];
+  const data = PACKAGES;
   return (
     <section className="section shell" id="pricing">
       <div className="price__intro reveal">
@@ -329,15 +280,7 @@ function Pricing() {
         </p>
       </div>
 
-      <div className="price__tabs reveal">
-        {PRICE_TABS.map(t => (
-          <button key={t.id} className={"price__tab " + (tab === t.id ? "is-active" : "")} onClick={() => setTab(t.id)}>
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      <div className="price__grid reveal-stagger" key={tab}>
+      <div className="price__grid reveal-stagger">
         {data.map((p, i) => (
           <div className={"price__card " + (p.feat ? "is-feat" : "")} key={i}>
             {p.feat && <div className="price__badge">Más solicitado</div>}

@@ -1088,27 +1088,8 @@ img { max-width: 100%; display: block; }
   line-height: 1.6;
   max-width: 50ch;
 }
-.price__tabs {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 32px;
-}
-.price__tab {
-  padding: 12px 20px;
-  border-radius: 999px;
-  background: transparent;
-  border: 1px solid var(--line-2);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink);
-  transition: all .25s var(--ease);
-}
-.price__tab:hover { background: var(--bg-soft); }
-.price__tab.is-active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-
 .price__grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
 }
 .price__card {
   position: relative;
