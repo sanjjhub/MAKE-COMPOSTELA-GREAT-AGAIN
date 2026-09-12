@@ -1,4 +1,4 @@
-/* Services / Pricing / Testimonials / Social / Footer */
+/* Services / Pricing / Social / Footer */
 
 /* Enlaces reales. Sin cifras de seguidores: un press kit con numeros
    inflados se desmonta en cuanto el promotor abre el perfil. */
@@ -266,48 +266,6 @@ function Pricing() {
   );
 }
 
-/* ---------- TESTIMONIALS ---------- */
-const TESTIMONIALS = [
-  {
-    q: "Levantó una pista que llevaba media hora muerta. Tres horas seguidas con todo el mundo cantando.",
-    n: "M. Rodríguez", r: "Promotor · Beach Club",
-  },
-  {
-    q: "Lo contratamos para la boda y se sintió como un festival privado. El cliente firmaría dos veces.",
-    n: "Laura Pérez", r: "Wedding Planner",
-  },
-  {
-    q: "Profesional, puntual y con un criterio musical que respeta la curaduría del cliente. Repetimos seguro.",
-    n: "C. Suárez", r: "Brand Manager · Corporate",
-  },
-];
-
-function Testimonials() {
-  return (
-    <section className="section shell" id="testimonials">
-      <SectionHead
-        kicker="03 / Testimonios"
-        eyebrow="Lo que dicen los clientes"
-        title="Bookings que vuelven."
-      />
-      <div className="test__grid reveal-stagger">
-        {TESTIMONIALS.map((t, i) => (
-          <div className="test__card" key={i}>
-            <div className="test__stars">{"★★★★★"}</div>
-            <p className="test__quote">{t.q}</p>
-            <div className="test__person">
-              <div className="test__avatar">{t.n.split(" ").map(s => s[0]).join("").slice(0,2)}</div>
-              <div>
-                <div className="test__name">{t.n}</div>
-                <div className="test__role">{t.r}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 /* ---------- SOCIAL ---------- */
 const SOCIALS = [
@@ -391,6 +349,5 @@ function Footer() {
 
 window.Services = Services;
 window.Pricing = Pricing;
-window.Testimonials = Testimonials;
 window.Social = Social;
 window.Footer = Footer;

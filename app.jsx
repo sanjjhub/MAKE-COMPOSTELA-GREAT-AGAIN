@@ -153,7 +153,6 @@ function App() {
         <Certificate/>
         <Services/>
         <Pricing/>
-        <Testimonials/>
         <Social/>
       </main>
 
